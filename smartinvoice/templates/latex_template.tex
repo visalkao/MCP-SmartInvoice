@@ -1,0 +1,88 @@
+\documentclass[a4paper,12pt]{article}
+% Modern font
+\usepackage{helvet}   % Helvetica
+\renewcommand{\familydefault}{\sfdefault}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{booktabs} % modern table rules
+\begin{document}
+
+%----------------- Header -----------------
+\noindent
+\begin{minipage}{0.15\linewidth}
+    \includegraphics[height=20mm]{smartinvoice/resources/latex_resources/vk_logo.png}
+\end{minipage}%
+\hfill
+\begin{minipage}{0.85\linewidth}
+    \begin{center}
+        {\Huge \textbf{Invoice}}
+    \end{center}
+\end{minipage}
+
+
+% \begin{center}
+%     {\LARGE \textbf{Invoice}} \\[0.5cm]
+% \end{center}
+
+\vspace{0.8cm}
+
+
+\noindent
+\textbf{Invoice Number:} INV-2025-001 \\
+\textbf{Date:} \#{{ current_date }} \\[0.5cm]
+
+\vspace{0.4cm}
+
+%----------------- Seller and Buyer -----------------
+\noindent
+\begin{tabular}{p{0.45\linewidth} p{0.45\linewidth}}
+\textbf{Seller:} & \textbf{Buyer:} \\
+VK Tech & Customer1 \\
+123 Rue de Paris & 45 Main Street \\
+30100 Alès, France & Perth, Australia \\
+VAT: FR123456789 &  \\
+\end{tabular}
+
+\vspace{0.8cm}
+
+%----------------- Table -----------------
+%----------------- Table -----------------
+\renewcommand{\arraystretch}{1.4}
+\begin{longtable}{p{7cm}r r r}
+\toprule
+\textbf{Description} & \textbf{Qty} & \textbf{Unit Price (€)} & \textbf{Total (€)} \\
+\midrule
+Data Processing Service (August 2025) & 1 & 1,200.00 & 1,200.00 \\
+Custom AI Model Development & 2 & 800.00 & 1,600.00 \\
+Cloud Hosting (per month) & 3 & 150.00 & 450.00 \\
+\textbf{Subtotal} & & & 3,250.00 \\
+VAT (20\%) & & & 650.00 \\
+\textbf{Total Due} & & & \textbf{3,900.00} \\
+\bottomrule
+\end{longtable}
+
+\vspace{1cm}
+
+%----------------- Footer -----------------
+\noindent
+\textbf{Payment Terms:} Due within 30 days. \\
+\textbf{Bank Details:} IBAN FR76 1234 5678 9012 3456 7890 123, BIC: ABCD FRPP \\
+\textbf{Contact:} billing@vktech.com \\
+
+
+\begin{flushright}
+\hspace{2cm}
+\includegraphics[height=18mm]{smartinvoice/resources/latex_resources/sample_signature.jpeg} \\
+\textbf{VK   .}
+\end{flushright}
+\vfill
+\begin{center}
+    {\small Thank you for your business!}
+\end{center}
+
+\end{document}
+\end
