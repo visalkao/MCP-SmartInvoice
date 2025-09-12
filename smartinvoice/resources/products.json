@@ -1,0 +1,5 @@
+{
+  "Laptop": { "price": 1200, "currency": "USD" },
+  "Mouse": { "price": 25, "currency": "USD" },
+  "Keyboard": { "price": 45, "currency": "USD" }
+}

@@ -14,7 +14,7 @@
 %----------------- Header -----------------
 \noindent
 \begin{minipage}{0.15\linewidth}
-    \includegraphics[height=20mm]{smartinvoice/resources/latex_resources/vk_logo.png}
+    \includegraphics[height=20mm]{../../smartinvoice/resources/latex_resources/vk_logo.png}
 \end{minipage}%
 \hfill
 \begin{minipage}{0.85\linewidth}
@@ -33,7 +33,7 @@
 
 \noindent
 \textbf{Invoice Number:} INV-2025-001 \\
-\textbf{Date:} \#{{ current_date }} \\[0.5cm]
+\textbf{Date:} \VAR{ invoice["datetime"] } \\[0.5cm]
 
 \vspace{0.4cm}
 
@@ -43,7 +43,7 @@
 \textbf{Seller:} & \textbf{Buyer:} \\
 VK Tech & Customer1 \\
 123 Rue de Paris & 45 Main Street \\
-30100 Alès, France & Perth, Australia \\
+3eme Paris, France & Perth, Australia \\
 VAT: FR123456789 &  \\
 \end{tabular}
 
@@ -54,14 +54,24 @@ VAT: FR123456789 &  \\
 \renewcommand{\arraystretch}{1.4}
 \begin{longtable}{p{7cm}r r r}
 \toprule
-\textbf{Description} & \textbf{Qty} & \textbf{Unit Price (€)} & \textbf{Total (€)} \\
+\textbf{Description} & \textbf{Qty} & \textbf{Unit Price (\texteuro)} & \textbf{Total (\texteuro)} \\
+% \midrule
+% Data Processing Service (August 2025) & 1 & 1,200.00 & 1,200.00 \\
+% Custom AI Model Development & 2 & 800.00 & 1,600.00 \\
+% Cloud Hosting (per month) & 3 & 150.00 & 450.00 \\
+
+
 \midrule
-Data Processing Service (August 2025) & 1 & 1,200.00 & 1,200.00 \\
-Custom AI Model Development & 2 & 800.00 & 1,600.00 \\
-Cloud Hosting (per month) & 3 & 150.00 & 450.00 \\
-\textbf{Subtotal} & & & 3,250.00 \\
-VAT (20\%) & & & 650.00 \\
-\textbf{Total Due} & & & \textbf{3,900.00} \\
+\BLOCK{ for item in invoice["items"] }
+\VAR{item.product} & \VAR{item.quantity} & \VAR{item.price} & \VAR{item.total} \\
+\BLOCK{ endfor }
+
+
+
+
+\textbf{Subtotal} & & & \VAR{invoice["subtotal"]} \\
+VAT (20\%) & & & \VAR{invoice["vat"]} \\
+\textbf{Total Due} & & & \textbf{\VAR{invoice["total"]}} \\
 \bottomrule
 \end{longtable}
 
@@ -76,8 +86,8 @@ VAT (20\%) & & & 650.00 \\
 
 \begin{flushright}
 \hspace{2cm}
-\includegraphics[height=18mm]{smartinvoice/resources/latex_resources/sample_signature.jpeg} \\
-\textbf{VK   .}
+\includegraphics[height=18mm]{../../smartinvoice/resources/latex_resources/sample_signature.jpeg} \\
+\textbf{Visal K.}
 \end{flushright}
 \vfill
 \begin{center}
