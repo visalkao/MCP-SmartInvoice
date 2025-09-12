@@ -1,42 +1,43 @@
 import tempfile, json
-
+from jinja2 import Template
+import subprocess
+from pathlib import Path
+import json
 import os
 import sys
 
 # Always set working dir to the project root (where server.py lives)
 BASE_DIR = os.path.join(os.path.dirname(__file__), "..", "..")
 
-# print(BASE_DIR)
+print(BASE_DIR)
 os.chdir(BASE_DIR)
 
 sys.path.insert(0, BASE_DIR)
 
-from jinja2 import Template
-import subprocess
-from pathlib import Path
-# from smartinvoice.schema.tool_schema import schema_invoice_generate
-PROJECT_PATH = Path("D:/Personal-project/MCP-SmartInvoice/MCP-SmartInvoice")
-INVOICE_STORAGE = Path("D:/Personal-project/MCP-SmartInvoice/MCP-SmartInvoice/invoices") / "invoices"
+PROJECT_PATH = Path(BASE_DIR)
+INVOICE_STORAGE = Path(BASE_DIR + "/invoices") / "invoices"
 INVOICE_STORAGE.mkdir(exist_ok=True)
 VAT_PERCENTAGE = 0.2
 # from templates
 with open("smartinvoice/templates/latex_template.tex", "r") as latex_template_file:
     LATEX_TEMPLATE = latex_template_file.read()
 
+
+CATALOG_FILE = Path("smartinvoice/resources/products.json")
+
+with open(CATALOG_FILE, "r") as f:
+    catalog = json.load(f)
+
+
 # print(LATEX_TEMPLATE)
 def generate_invoice(items: list):
     import uuid
     invoice_id = str(uuid.uuid4())[:8]
-    # For demo: static prices
-    catalog = {
-        "Laptop": (1200, "USD"),
-        "Mouse": (25, "USD"),
-        "Keyboard": (45, "USD"),
-    }
     total = 0
     processed_items = []
     for it in items:
-        price, currency = catalog[it["product"]]
+        price = catalog[it["product"]]["price"]
+        currency = catalog[it["product"]]["currency"]
         subtotal = price * it["quantity"]
         total += subtotal
         print(it)
@@ -63,15 +64,17 @@ def generate_invoice(items: list):
 
     pdf_path = confirm_invoice(invoice_id)["pdf_path"]
     invoice["invoice_path"] = str(INVOICE_STORAGE) + "/" + pdf_path
-    return {"invoice": invoice,  "message": f"Invoice created successfully at D:/Personal-project/MCP-SmartInvoice/MCP-SmartInvoice/invoices/{pdf_path}."}
+    return {"invoice": invoice,  "message": f"Invoice created successfully at D:/Personal-project/MCP-SmartInvoice/MCP-SmartInvoice/invoices/invoices/{pdf_path}."}
 
 from jinja2 import Environment
+from datetime import datetime
 def confirm_invoice(invoice_id: str):
     path = INVOICE_STORAGE / f"{invoice_id}.json"
     if not path.exists():
         return {"error": "Invoice not found"}
     invoice = json.loads(path.read_text())
     invoice["status"] = "confirmed"
+    invoice["datetime"] = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
     # Render LaTeX
     env = Environment(
         block_start_string = '\BLOCK{',
@@ -108,7 +111,7 @@ def download_invoice(invoice_id: str):
 
 
 # items = ["laptop", "mouse"]
-# items = [{"product": "Laptop", "quantity": 1}, {"product": "Mouse", "quantity": 2}]
-# invoice_info = generate_invoice(items)
+items = [{"product": "Laptop", "quantity": 1}, {"product": "Mouse", "quantity": 2}]
+invoice_info = generate_invoice(items)
 # print(invoice_info["invoice"]["id"])
 # confirm_invoice(invoice_info["invoice"]["id"])
