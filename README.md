@@ -1,5 +1,6 @@
 # SmartInvoice MCP Server
 
+<img width="290" height="419" alt="image" src="https://github.com/user-attachments/assets/794fea54-f868-4ae4-9968-6e7cedccdaea" />
 
 
 This repository contains the **SmartInvoice MCP server**, a backend assistant for VK Tech products. Built with the [MCP framework](https://github.com/mcp-project), it's designed to be used with an MCP-compatible client like Claude to provide a virtual assistant experience.
